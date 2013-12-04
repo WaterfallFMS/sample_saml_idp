@@ -12,6 +12,7 @@ class User
   end
 
   def persistent
-    UUID.generate
+    #@persistent ||= UUID.generate
+    email
   end
 end
