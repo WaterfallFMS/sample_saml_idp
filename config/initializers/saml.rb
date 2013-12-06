@@ -92,7 +92,10 @@ CERT
         Rails.logger.debug principal.inspect
         principal.email
       }
-    }
+    },
+    account_count:    nil,  # if the user is a member of more then one account
+    selected_account: nil,  # the info for the current account
+    modules_enabled:  nil
   }
 
   service_providers = {
