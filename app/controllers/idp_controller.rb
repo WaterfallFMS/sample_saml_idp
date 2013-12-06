@@ -1,4 +1,4 @@
-class ::SamlIdpController < SamlIdp::IdpController
+class IdpController < SamlIdp::IdpController
 private
   def idp_authenticate(email, password) # not using params intentionally
     logger.debug '-'*80

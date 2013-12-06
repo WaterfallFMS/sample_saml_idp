@@ -1,7 +1,7 @@
 SamlIpd::Application.routes.draw do
-  get '/saml/auth' => 'saml_idp#new'
-  get '/saml/metadata' => 'saml_idp#show'
-  post '/saml/auth' => 'saml_idp#create'
+  get '/saml/auth' => 'idp#new'
+  get '/saml/metadata' => 'idp#show'
+  post '/saml/auth' => 'idp#create'
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
