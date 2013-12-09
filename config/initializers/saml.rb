@@ -1,27 +1,3 @@
-begin
-  #raise RuntimeError.new 'Ignore me'
-
-module SamlIdp
-  module Signable
-    def digest
-      # Make it check for inclusive at some point (https://github.com/onelogin/ruby-saml/blob/master/lib/xml_security.rb#L159)
-      inclusive_namespaces = []
-      # Also make customizable
-      canon_algorithm = Nokogiri::XML::XML_C14N_EXCLUSIVE_1_0
-      canon_hashed_element = noko_raw.canonicalize(canon_algorithm, inclusive_namespaces)
-      digest_algorithm = get_algorithm
-
-      Rails.logger.warn 'Response digest'
-      Rails.logger.warn canon_hashed_element.inspect
-
-      hash                          = digest_algorithm.digest(canon_hashed_element)
-      Rails.logger.warn hash.inspect
-      Base64.encode64(hash).gsub(/\n/, '')
-    end
-  end
-end
-
-
 SamlIdp.configure do |config|
   base = "http://saml-idp.dev"
 
@@ -64,18 +40,10 @@ OyC7DylcE/ur6SHOVMWkPh4bjUWllKvSk4ARAN/+/Hvh
 CERT
 
 
-  # config.password = "secret_key_password"
-  # config.algorithm = :sha256
   config.organization_name = "Waterfall Software Inc."
   config.organization_url = "http://waterfallsoftware.com"
   config.base_saml_location = "#{base}/saml"
-  # config.reference_id_generator                   # Default: -> { UUID.generate }
-  # config.attribute_service_location = "#{base}/saml/names"
   config.single_service_post_location = "#{base}/saml/auth"
-
-  #config.name_id.format email_address: ->(principal) { principal.email_address }
-  #                      transient: ->(principal) { principal.id },
-  #                      persistent: ->(p) { p.id }
 
   config.technical_contact.company = "Waterfall Software Inc."
   config.technical_contact.given_name = "Support"
@@ -84,15 +52,9 @@ CERT
   config.technical_contact.email_address = "support@waterfallsoftware.com"
 
   config.attributes = {
-    email: {
-      #name: 'email',
-      getter: ->(principal) {
-        Rails.logger.debug '-'*80
-        Rails.logger.debug 'email getter'
-        Rails.logger.debug principal.inspect
-        principal.email
-      }
-    },
+    email:            nil,
+    first_name:       nil,
+    last_name:        nil,
     account_count:    nil,  # if the user is a member of more then one account
     selected_account: nil,  # the info for the current account
     modules_enabled:  nil
@@ -137,14 +99,6 @@ CERT
 
   # Find ServiceProvider metadata_url and fingerprint based on our settings
   config.service_provider.finder = ->(issuer_or_entity_id) do
-    Rails.logger.debug '-'*80
-    Rails.logger.debug 'service_provider.finder'
-    Rails.logger.debug issuer_or_entity_id
-    Rails.logger.debug service_providers[issuer_or_entity_id].inspect
-
     service_providers[issuer_or_entity_id]
   end
-end
-
-rescue RuntimeError
 end
