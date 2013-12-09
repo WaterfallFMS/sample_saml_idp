@@ -1,10 +1,12 @@
 class User
-  attr_accessor :email
+  attr_accessor :email, :first_name, :last_name
 
-  def self.by_email(email)
-    u = User.new
-    u.email = email
-    [u]
+  def self.valid_user
+    u            = User.new
+    u.email      = 'user@example.com'
+    u.first_name = 'Test'
+    u.last_name  = 'User'
+    u
   end
 
   def valid_password?(password)
