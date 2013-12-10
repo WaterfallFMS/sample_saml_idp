@@ -25,12 +25,12 @@ class User
 
   def selected_account
     {
-        id:   4,
+        uuid: '6888dce0-43d1-0131-9c64-482a14030d65',
         name: 'Demo account'
     }.to_json.to_s
   end
 
   def modules_enabled
-    ['cms','crm','university','login'].to_json.to_s
+    ['account','cms','crm','forum','university',].to_json.to_s
   end
 end
