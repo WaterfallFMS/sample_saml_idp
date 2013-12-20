@@ -57,7 +57,8 @@ CERT
     last_name:        nil,
     account_count:    nil,  # if the user is a member of more then one account
     selected_account: nil,  # the info for the current account
-    modules_enabled:  nil
+    modules_enabled:  nil,
+    account_type:     nil
   }
 
   service_providers = {
@@ -99,6 +100,7 @@ CERT
 
   # Find ServiceProvider metadata_url and fingerprint based on our settings
   config.service_provider.finder = ->(issuer_or_entity_id) do
+    Rails.logger.debug "Auth request from SP #{issuer_or_entity_id}"
     service_providers[issuer_or_entity_id]
   end
 end
