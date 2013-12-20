@@ -5,7 +5,7 @@ class IdpController < SamlIdp::IdpController
 
 private
   def idp_authenticate(email, password) # not using params intentionally
-    User.valid_user
+    User.valid_user(email)
   end
 
   def idp_make_saml_response(found_user) # not using params intentionally

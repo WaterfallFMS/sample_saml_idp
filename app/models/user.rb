@@ -1,11 +1,11 @@
 class User
   attr_accessor :email, :first_name, :last_name
 
-  def self.valid_user
-    u            = User.new
-    u.email      = 'user@example.com'
-    u.first_name = 'Test'
-    u.last_name  = 'User'
+  def self.valid_user(email)
+    u              = User.new
+    u.email        = email
+    u.first_name   = email.split('@').first.capitalize
+    u.last_name    = 'User'
     u
   end
 
@@ -32,5 +32,13 @@ class User
 
   def modules_enabled
     ['account','cms','crm','forum','university',].to_json.to_s
+  end
+  
+  def account_type
+    case email
+      when 'waterfall-admin@waterfallsoftware.com' then 'waterfall_admin'
+      when 'admin@waterfallsoftware.com' then 'admin'
+      else 'user'
+    end
   end
 end
