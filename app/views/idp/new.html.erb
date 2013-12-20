@@ -2,11 +2,14 @@
   <div id="saml_idp_fail_msg" class="flash error"><%= @saml_idp_fail_msg %></div>
 <% end %>
 
-<%= form_tag saml_auth_path, :method => 'POST' do %>
-  <%= hidden_field_tag("SAMLRequest", params[:SAMLRequest]) %>
-  <%= hidden_field_tag("RelayState", params[:RelayState]) %>
+<%= render :partial => 'form', :locals => {
+    :email        => 'waterfall-admin@waterfallsoftware.com'
+} %>
 
-  <%# fake a user and password %>
-  <%= hidden_field_tag :email,    'test@test.com' %>
-  <%= hidden_field_tag :password, 'password' %>
-<% end %>
+<%= render :partial => 'form', :locals => {
+    :email        => 'admin@waterfallsoftware.com'
+} %>
+
+<%= render :partial => 'form', :locals => {
+    :email        => 'normal@waterfallsoftware.com'
+} %>
