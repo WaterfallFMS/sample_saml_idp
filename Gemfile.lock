@@ -1,5 +1,6 @@
-PATH
-  remote: /Users/jkamenik/github/saml_idp
+GIT
+  remote: git://github.com/jkamenik/saml_idp.git
+  revision: a012f6ad4e34297ed4eca844530c5d706a4235e6
   specs:
     saml_idp (0.1.1)
       activesupport
@@ -69,7 +70,7 @@ GEM
     minitest (4.7.5)
     multi_json (1.8.2)
     multi_xml (0.5.5)
-    nokogiri (1.6.0)
+    nokogiri (1.6.1)
       mini_portile (~> 0.5.0)
     pg (0.17.0)
     polyglot (0.3.3)
