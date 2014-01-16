@@ -53,14 +53,14 @@ CERT
 
   config.attributes = {
     email:            nil,
-    first_name:       nil,
-    last_name:        nil,
+    name:             nil,
     account_count:    nil,  # if the user is a member of more then one account
     selected_account: nil,  # the info for the current account
     modules_enabled:  nil,
-    account_type:     nil
+    is_account_owner: nil,
+    permissions:      nil
   }
-
+  
   service_providers = {
     "some-issuer-url.com/saml" => {
       fingerprint: "9E:65:2E:03:06:8D:80:F2:86:C7:6C:77:A1:D9:14:97:0A:4D:F4:4D",

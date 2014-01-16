@@ -1,11 +1,10 @@
 class User
-  attr_accessor :email, :first_name, :last_name
+  attr_accessor :email, :name
 
   def self.valid_user(email)
-    u              = User.new
-    u.email        = email
-    u.first_name   = email.split('@').first.capitalize
-    u.last_name    = 'User'
+    u        = User.new
+    u.email  = email
+    u.name   = email.split('@').first.capitalize
     u
   end
 
@@ -13,16 +12,24 @@ class User
     true
   end
 
+  ##### IMPORTANT SAML BEHAVIOR #####
+
+  # returns the email address
   def persistent
-    #@persistent ||= UUID.generate
     email
   end
 
+  # returns a count of the number of account the user is a member of
+  #
+  # this can be used by an SP to show a link to allow the user to jump accounts
   def account_count
-    # I am a member of 3 different accounts
     3
   end
 
+  # returns a hash of the currently selected account
+  # MUST include
+  #  uuid: a globally unique ID for the account
+  #  name: the name of the account
   def selected_account
     {
         uuid: '6888dce0-43d1-0131-9c64-482a14030d65',
@@ -30,15 +37,37 @@ class User
     }.to_json.to_s
   end
 
+  # returns an array of the modules that a user was given access to
+  #
+  # this is used by an SP to reject a login attempt from a user that does not
+  # have access to the module
   def modules_enabled
     ['account','cms','crm','forum','university',].to_json.to_s
   end
   
-  def account_type
-    case email
-      when 'waterfall-admin@waterfallsoftware.com' then 'waterfall_admin'
-      when 'admin@waterfallsoftware.com' then 'admin'
-      else 'user'
+
+  # returns of the user is the account owner: "superadmin"
+  def is_account_owner
+    # only waterfall-admin
+    email == 'waterfall-admin@waterfallsoftware.com'
+  end
+  
+  # return a hash of permissions
+  def permissions
+    # super admins do not need account access
+    return {}.to_json.to_s if is_account_owner
+    
+    everyone = {
+      'Forum' => %w(index show),
+      'Topic' => %w(index show create),
+      'Post'  => %w(index show create update destroy)
+    }
+    
+    if email == 'admin@waterfallsoftware.com'
+      everyone['Forum'].concat %w(create update destroy)
+      everyone['Topic'].concat %w(update destroy)
     end
+    
+    everyone.to_json.to_s
   end
 end
