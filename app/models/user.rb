@@ -70,4 +70,11 @@ class User
     
     everyone.to_json.to_s
   end
+  
+  def uda
+    uda = {
+      'key' => 'value'
+    }
+    uda.to_json.to_s
+  end
 end

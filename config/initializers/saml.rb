@@ -58,7 +58,8 @@ CERT
     selected_account: nil,  # the info for the current account
     modules_enabled:  nil,
     is_account_owner: nil,
-    permissions:      nil
+    permissions:      nil,
+    uda:              nil
   }
   
   service_providers = {
